@@ -1,0 +1,115 @@
+[
+  {
+    "question": "Why are my maize leaves turning yellow?",
+    "answer": "Yellow maize leaves may be caused by nitrogen deficiency, water stress, poor drainage, or disease."
+  },
+  {
+    "question": "What causes holes in maize leaves?",
+    "answer": "Holes in maize leaves are often caused by fall armyworm, stem borers, or other chewing insects."
+  },
+  {
+    "question": "How do I control fall armyworm in maize?",
+    "answer": "Check maize plants early, especially inside the whorl. Remove larvae manually in small plots and use recommended pest control methods when needed."
+  },
+  {
+    "question": "When should I apply nitrogen fertilizer to maize?",
+    "answer": "Nitrogen fertilizer is often applied during early maize growth and again when the plants are knee high, depending on local recommendations."
+  },
+  {
+    "question": "Why are my maize plants stunted?",
+    "answer": "Stunted maize growth may be caused by poor soil fertility, drought stress, pest damage, compacted soil, or poor planting conditions."
+  },
+  {
+    "question": "How do I control weeds in maize?",
+    "answer": "Control weeds early through hand weeding, cultivation, mulch, or recommended herbicides. Early weed control is very important for maize growth."
+  },
+  {
+    "question": "What spacing should I use for maize?",
+    "answer": "Maize spacing depends on the variety and local recommendations, but many farmers use rows about 75 cm apart and plants 20 to 30 cm apart within the row."
+  },
+  {
+    "question": "Why do maize leaves have brown spots?",
+    "answer": "Brown spots on maize leaves may be caused by disease, nutrient problems, or stress. If the spots spread quickly, seek local agronomic advice."
+  },
+  {
+    "question": "What causes maize leaf blight?",
+    "answer": "Maize leaf blight is commonly linked to fungal infection. It often appears as elongated lesions on leaves and can spread under favorable moisture conditions."
+  },
+  {
+    "question": "How do I manage maize leaf blight?",
+    "answer": "Use clean seed, rotate crops, reduce crop residue where appropriate, and seek local guidance if disease pressure becomes severe."
+  },
+  {
+    "question": "What causes maize leaves to look purple?",
+    "answer": "Purple maize leaves may be linked to phosphorus deficiency, cold stress, or restricted root growth."
+  },
+  {
+    "question": "How do I know if maize has nitrogen deficiency?",
+    "answer": "Maize with nitrogen deficiency often shows yellowing that starts on older leaves first, with poor growth and reduced vigor."
+  },
+  {
+    "question": "How do I know if maize has phosphorus deficiency?",
+    "answer": "Phosphorus deficiency in maize may cause slow growth, weak roots, and sometimes purple coloration on leaves, especially in young plants."
+  },
+  {
+    "question": "How do I improve soil fertility for maize?",
+    "answer": "Improve maize soil fertility by using the right fertilizer, adding organic matter, rotating crops, reducing erosion, and following soil test recommendations when available."
+  },
+  {
+    "question": "What manure is good for maize?",
+    "answer": "Well-decomposed manure can help improve soil structure and nutrient supply for maize. It should be applied carefully and preferably combined with good nutrient planning."
+  },
+  {
+    "question": "Why are soybean leaves turning yellow?",
+    "answer": "Yellow soybean leaves may be caused by nutrient deficiency, water stress, root problems, or disease."
+  },
+  {
+    "question": "How can I improve soybean nodulation?",
+    "answer": "Use the right inoculant, plant in suitable moisture, and avoid exposing treated seed to too much heat or direct sunlight before planting."
+  },
+  {
+    "question": "Why are soybean plants not growing well?",
+    "answer": "Poor soybean growth may be caused by poor soil fertility, drought stress, compaction, disease, or poor nodulation."
+  },
+  {
+    "question": "How do I control weeds in soybean?",
+    "answer": "Control weeds early using hand weeding, cultivation, mulch, or recommended herbicides because early weed competition can reduce soybean yield."
+  },
+  {
+    "question": "What causes soybean leaves to have spots?",
+    "answer": "Leaf spots on soybean may be caused by disease, chemical injury, or nutrient stress. Severe cases should be checked locally."
+  },
+  {
+    "question": "How do I know if my crop has drought stress?",
+    "answer": "Common drought stress signs include leaf rolling, slow growth, wilting, and poor grain fill. Check soil moisture and compare stressed areas with healthier parts of the field."
+  },
+  {
+    "question": "How do I know if soybean has iron deficiency?",
+    "answer": "Soybean iron deficiency often appears as yellowing between the veins of young leaves while the veins may stay greener."
+  },
+  {
+    "question": "Why are soybean leaves pale?",
+    "answer": "Pale soybean leaves may be linked to nutrient deficiency, poor nodulation, water stress, or root problems."
+  },
+  {
+    "question": "How can I improve soil fertility for soybean?",
+    "answer": "Improve soybean soil fertility by managing pH, using inoculants correctly, maintaining organic matter, and applying nutrients based on soil needs."
+  },
+  {
+    "question": "What causes root rot in soybean?",
+    "answer": "Soybean root rot is often associated with poor drainage, excess moisture, soilborne pathogens, and plant stress."
+  },
+  {
+    "question": "How do I reduce soybean disease pressure?",
+    "answer": "Use clean seed, rotate crops, avoid unnecessary stress, improve field drainage, and follow local agronomic advice when disease becomes serious."
+  },
+  {
+    "question": "Why are soybean plants not nodulating?",
+    "answer": "Poor nodulation may be caused by missing inoculant, poor soil conditions, or drought stress."
+  }
+,
+{
+  "question": "Why are my soybeans weak and not fixing nitrogen well?",
+  "answer": "Weak soybeans that are not fixing nitrogen well may have poor nodulation. This can happen when inoculant was missing or ineffective, soil conditions are poor, or drought stress reduced root activity."
+}
+]
