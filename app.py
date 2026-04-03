@@ -389,5 +389,5 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.info("Next step: Want the full LangGraph agent version (stateful, planning, memory)? Just say the word and I'll give you the extra files.")
+
 
