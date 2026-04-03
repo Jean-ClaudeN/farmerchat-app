@@ -1,211 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>FarmerChat – Updated Production-Ready Version</title>
-    <style>
-        /* Your original beautiful CSS is 100% preserved below */
-        :root {
-            --green-900: #1f4d2e;
-            --green-800: #2f6b3d;
-            --green-700: #3d7a49;
-            --green-100: #eef6ef;
-            --green-050: #f7fbf7;
-            --text-main: #1f2937;
-            --text-soft: #5b6470;
-            --border-soft: #dfe7df;
-            --card-bg: #ffffff;
-            --shadow-soft: 0 10px 30px rgba(18, 38, 24, 0.08);
-        }
-        html, body, [class*="css"] {
-            font-family: "Segoe UI", Arial, sans-serif;
-            color: var(--text-main);
-        }
-        .block-container {
-            padding-top: 1.1rem;
-            padding-bottom: 2rem;
-            max-width: 1240px;
-        }
-        .topbar {
-            background: #ffffff;
-            border: 1px solid #edf1ed;
-            border-radius: 18px;
-            padding: 0.95rem 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 1rem;
-        }
-        .brand {
-            font-size: 1.9rem;
-            font-weight: 700;
-            color: var(--green-800);
-            letter-spacing: 0.2px;
-        }
-        .nav-links {
-            display: flex;
-            gap: 1.4rem;
-            color: var(--text-soft);
-            font-size: 0.98rem;
-            font-weight: 600;
-        }
-        .hero {
-            position: relative;
-            overflow: hidden;
-            border-radius: 28px;
-            min-height: 360px;
-            padding: 2.2rem 2.3rem;
-            background:
-                linear-gradient(90deg, rgba(28,59,36,0.88) 0%, rgba(41,82,49,0.78) 40%, rgba(68,106,72,0.42) 100%),
-                url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80");
-            background-size: cover;
-            background-position: center;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 1.2rem;
-        }
-        .hero-content {
-            max-width: 700px;
-            color: #ffffff;
-            padding-top: 1.2rem;
-        }
-        .hero-kicker {
-            display: inline-block;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid rgba(255,255,255,0.18);
-            padding: 0.35rem 0.7rem;
-            border-radius: 999px;
-            font-size: 0.82rem;
-            margin-bottom: 1rem;
-        }
-        .hero-title {
-            font-size: 3.1rem;
-            line-height: 1.02;
-            font-weight: 750;
-            margin-bottom: 0.9rem;
-        }
-        .hero-subtitle {
-            font-size: 1.12rem;
-            line-height: 1.55;
-            color: rgba(255,255,255,0.92);
-            margin-bottom: 1.25rem;
-        }
-        .cta-row {
-            display: flex;
-            gap: 0.9rem;
-            flex-wrap: wrap;
-        }
-        .cta-note {
-            margin-top: 0.8rem;
-            color: rgba(255,255,255,0.85);
-            font-size: 0.92rem;
-        }
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 0.9rem;
-            margin: 1.1rem 0 1.4rem 0;
-        }
-        .metric-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 18px;
-            padding: 1rem 1.05rem;
-            box-shadow: var(--shadow-soft);
-        }
-        .metric-label {
-            color: var(--text-soft);
-            font-size: 0.85rem;
-            margin-bottom: 0.25rem;
-        }
-        .metric-value {
-            font-size: 1.22rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        .section-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-soft);
-            border-radius: 22px;
-            padding: 1.2rem 1.25rem;
-            box-shadow: var(--shadow-soft);
-            margin-bottom: 1rem;
-        }
-        .section-title {
-            font-size: 1.28rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        .section-subtitle {
-            color: var(--text-soft);
-            margin-bottom: 0.9rem;
-        }
-        .answer-card {
-            background: var(--green-050);
-            border: 1px solid #d8e6d7;
-            border-radius: 18px;
-            padding: 1rem 1.1rem;
-            margin-top: 0.6rem;
-            margin-bottom: 0.7rem;
-        }
-        .answer-label {
-            font-weight: 700;
-            color: var(--green-900);
-            margin-bottom: 0.15rem;
-        }
-        .answer-block {
-            margin-bottom: 0.85rem;
-            line-height: 1.55;
-        }
-        .status-pill {
-            display: inline-block;
-            padding: 0.35rem 0.7rem;
-            border-radius: 999px;
-            background: #edf6ed;
-            color: var(--green-900);
-            border: 1px solid #d9e9d8;
-            font-size: 0.82rem;
-            font-weight: 700;
-            margin-right: 0.45rem;
-            margin-bottom: 0.45rem;
-        }
-        .quick-btn-row {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            margin: 0.6rem 0 1rem 0;
-        }
-        .footer-box {
-            background: #fafcf9;
-            border: 1px solid #e4ece4;
-            border-radius: 18px;
-            padding: 1rem 1.1rem;
-            margin-top: 1rem;
-            color: var(--text-soft);
-            font-size: 0.92rem;
-        }
-        @media (max-width: 900px) {
-            .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .hero-title { font-size: 2.2rem; }
-            .nav-links { display: none; }
-        }
-    </style>
-</head>
-<body>
-    <!-- FULL UPDATED STREAMLIT CODE BELOW – COPY FROM HERE TO THE END OF THE FILE -->
-    <h1 style="text-align:center;color:#2f6b3d;margin-top:30px;">✅ FarmerChat – Updated &amp; Ready for GitHub</h1>
-    <p style="text-align:center;max-width:800px;margin:0 auto 40px auto;">
-        This is the complete, single-file <strong>app.py</strong> with all the improvements we discussed:<br>
-        • LiteLLM (Gemini Flash – free &amp; fast) instead of broken OpenAI<br>
-        • Real image analysis (specialized maize disease model + vision LLM)<br>
-        • Structured JSON output (no more parsing bugs)<br>
-        • Better retrieval + confidence scoring<br>
-        • True agent-like workflow with conditional image handling<br>
-        • Kept 100% of your beautiful UI/CSS<br>
-        • Easy to extend to full LangGraph later
-    </p>
-
-<pre style="background:#f8f9f7;border-radius:16px;padding:20px;font-size:13px;line-height:1.4;overflow:auto;max-height:70vh;margin:0 auto 40px auto;width:95%;max-width:1100px;">
-```python
 import streamlit as st
 import json
 import re
@@ -222,7 +14,7 @@ st.set_page_config(page_title="FarmerChat", layout="wide")
 with open("knowledge_base.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-# API clients (set these in your environment or .env)
+# API clients (set these as environment variables)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 HF_TOKEN = os.getenv("HF_TOKEN")
 
@@ -288,7 +80,7 @@ def build_context(matches):
 # NEW: Real image analysis (hybrid CV + vision LLM)
 def analyze_photo(image_bytes: bytes, crop: str, description: str):
     if not hf_client or crop.lower() != "maize":
-        # Soybean or no HF token → fall back to vision LLM only
+        # Soybean or no HF token -> fall back to vision LLM only
         vision_prompt = f"""Farmer uploaded a {crop} photo. Visible symptoms: {description}.
         Give a structured farmer-friendly diagnosis using only practical knowledge."""
         try:
@@ -297,25 +89,31 @@ def analyze_photo(image_bytes: bytes, crop: str, description: str):
                 messages=[{"role": "user", "content": vision_prompt}],
                 temperature=0.3
             )
-            return {"likely_issue": "Visual analysis", "confidence": 0.75,
-                    "why": resp.choices[0].message.content, "action": "Observe closely"}
+            return {"Likely issue": "Visual analysis", "confidence": 0.75,
+                    "Why this may be happening": resp.choices[0].message.content,
+                    "What to check next": "Observe closely",
+                    "Suggested action": "Follow visible symptoms",
+                    "When to seek local support": "If symptoms worsen"}
         except:
-            return {"likely_issue": "Photo analysis unavailable", "confidence": 0.4,
-                    "why": "No image model available", "action": "Describe symptoms in text"}
+            return {"Likely issue": "Photo analysis unavailable", "confidence": 0.4,
+                    "Why this may be happening": "No image model available",
+                    "What to check next": "Describe symptoms in text",
+                    "Suggested action": "Use text question",
+                    "When to seek local support": "Always confirm with expert"}
 
     # Maize specialized model
     try:
         cv_result = hf_client.image_classification(image_bytes, model="eligapris/maize-diseases-detection")
         top = cv_result[0]
         cv_label = top["label"]
-        cv_score = top["score"]
+        cv_score = float(top["score"])
     except:
         cv_label, cv_score = "Unknown", 0.0
 
     # Vision LLM for explanation
     vision_prompt = f"""You are FarmerChat. Farmer uploaded a maize photo.
     CV model detected: {cv_label} ({cv_score:.0%} confidence). Visible issue: {description}.
-    Return ONLY a short, practical diagnosis for a farmer."""
+    Return a short, practical diagnosis for a farmer."""
     
     try:
         resp = completion(
@@ -330,15 +128,15 @@ def analyze_photo(image_bytes: bytes, crop: str, description: str):
         explanation = "Image processed but explanation unavailable."
 
     return {
-        "likely_issue": cv_label,
-        "confidence": float(cv_score),
-        "why": explanation,
-        "what_to_check": "Leaf pattern, spread rate, weather conditions",
-        "suggested_action": "Apply recommended treatment or consult extension officer",
-        "when_to_seek_expert": "If confidence < 70% or symptoms spread rapidly"
+        "Likely issue": cv_label,
+        "confidence": cv_score,
+        "Why this may be happening": explanation,
+        "What to check next": "Leaf pattern, spread rate, weather conditions",
+        "Suggested action": "Apply recommended treatment or consult extension officer",
+        "When to seek local support": "If confidence < 70% or symptoms spread rapidly"
     }
 
-# NEW: AI answer with forced JSON structure (true agent-style output)
+# NEW: AI answer with forced JSON structure
 def build_ai_answer(user_question, matches, image_analysis=None):
     if not USE_AI:
         return None
@@ -388,7 +186,7 @@ def render_answer_card(sections):
         return escape(str(sections.get(key, "Not available")))
     
     conf = sections.get("confidence", 0.8)
-    conf_color = "var(--green-900)" if conf > 0.7 else "#d97706"
+    conf_color = "#1f4d2e" if conf > 0.7 else "#d97706"
     
     st.markdown(f"""
     <div class="answer-card">
@@ -420,6 +218,49 @@ def render_answer_card(sections):
     """, unsafe_allow_html=True)
 
 # ========================== UI ==========================
+st.markdown("""
+<style>
+:root {
+    --green-900: #1f4d2e;
+    --green-800: #2f6b3d;
+    --green-700: #3d7a49;
+    --green-100: #eef6ef;
+    --green-050: #f7fbf7;
+    --text-main: #1f2937;
+    --text-soft: #5b6470;
+    --border-soft: #dfe7df;
+    --card-bg: #ffffff;
+    --shadow-soft: 0 10px 30px rgba(18, 38, 24, 0.08);
+}
+html, body, [class*="css"] { font-family: "Segoe UI", Arial, sans-serif; color: var(--text-main); }
+.block-container { padding-top: 1.1rem; padding-bottom: 2rem; max-width: 1240px; }
+.topbar { background: #ffffff; border: 1px solid #edf1ed; border-radius: 18px; padding: 0.95rem 1.2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-soft); margin-bottom: 1rem; }
+.brand { font-size: 1.9rem; font-weight: 700; color: var(--green-800); letter-spacing: 0.2px; }
+.nav-links { display: flex; gap: 1.4rem; color: var(--text-soft); font-size: 0.98rem; font-weight: 600; }
+.hero { position: relative; overflow: hidden; border-radius: 28px; min-height: 360px; padding: 2.2rem 2.3rem; background: linear-gradient(90deg, rgba(28,59,36,0.88) 0%, rgba(41,82,49,0.78) 40%, rgba(68,106,72,0.42) 100%), url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80"); background-size: cover; background-position: center; box-shadow: var(--shadow-soft); margin-bottom: 1.2rem; }
+.hero-content { max-width: 700px; color: #ffffff; padding-top: 1.2rem; }
+.hero-kicker { display: inline-block; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); padding: 0.35rem 0.7rem; border-radius: 999px; font-size: 0.82rem; margin-bottom: 1rem; }
+.hero-title { font-size: 3.1rem; line-height: 1.02; font-weight: 750; margin-bottom: 0.9rem; }
+.hero-subtitle { font-size: 1.12rem; line-height: 1.55; color: rgba(255,255,255,0.92); margin-bottom: 1.25rem; }
+.cta-row { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+.cta-note { margin-top: 0.8rem; color: rgba(255,255,255,0.85); font-size: 0.92rem; }
+.metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9rem; margin: 1.1rem 0 1.4rem 0; }
+.metric-card { background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 18px; padding: 1rem 1.05rem; box-shadow: var(--shadow-soft); }
+.metric-label { color: var(--text-soft); font-size: 0.85rem; margin-bottom: 0.25rem; }
+.metric-value { font-size: 1.22rem; font-weight: 700; color: var(--text-main); }
+.section-card { background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 22px; padding: 1.2rem 1.25rem; box-shadow: var(--shadow-soft); margin-bottom: 1rem; }
+.section-title { font-size: 1.28rem; font-weight: 700; margin-bottom: 0.25rem; }
+.section-subtitle { color: var(--text-soft); margin-bottom: 0.9rem; }
+.answer-card { background: var(--green-050); border: 1px solid #d8e6d7; border-radius: 18px; padding: 1rem 1.1rem; margin-top: 0.6rem; margin-bottom: 0.7rem; }
+.answer-label { font-weight: 700; color: var(--green-900); margin-bottom: 0.15rem; }
+.answer-block { margin-bottom: 0.85rem; line-height: 1.55; }
+.status-pill { display: inline-block; padding: 0.35rem 0.7rem; border-radius: 999px; background: #edf6ed; color: var(--green-900); border: 1px solid #d9e9d8; font-size: 0.82rem; font-weight: 700; margin-right: 0.45rem; margin-bottom: 0.45rem; }
+.quick-btn-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin: 0.6rem 0 1rem 0; }
+.footer-box { background: #fafcf9; border: 1px solid #e4ece4; border-radius: 18px; padding: 1rem 1.1rem; margin-top: 1rem; color: var(--text-soft); font-size: 0.92rem; }
+@media (max-width: 900px) { .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hero-title { font-size: 2.2rem; } .nav-links { display: none; } }
+</style>
+""", unsafe_allow_html=True)
+
 st.markdown("""<div class="topbar"><div class="brand">FarmerChat</div></div>""", unsafe_allow_html=True)
 
 st.markdown("""
@@ -427,9 +268,7 @@ st.markdown("""
     <div class="hero-content">
         <div class="hero-kicker">AI agent for agriculture</div>
         <div class="hero-title">Localized crop support for maize and soybean farmers</div>
-        <div class="hero-subtitle">
-            Now with real photo analysis, structured agent reasoning, and reliable low-cost AI.
-        </div>
+        <div class="hero-subtitle">Now with real photo analysis, structured agent reasoning, and reliable low-cost AI.</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -448,7 +287,6 @@ tab1, tab2, tab3 = st.tabs(["💬 Ask FarmerChat", "📸 Photo Review", "📚 Kn
 with tab1:
     st.markdown('<div class="section-card"><div class="section-title">Ask FarmerChat</div></div>', unsafe_allow_html=True)
     
-    # Quick preset buttons
     q1, q2, q3, q4 = st.columns(4)
     if q1.button("Soybeans not fixing nitrogen"):
         st.session_state["preset_question"] = "My soybeans are weak and not fixing nitrogen well. What could be wrong?"
@@ -488,7 +326,6 @@ with tab1:
                 render_answer_card(ai_result)
                 stored = json.dumps(ai_result)
             else:
-                # Fallback to local
                 local = {"Likely issue": "Knowledge base match", "Why this may be happening": "Retrieved from crop database", 
                          "What to check next": "Compare symptoms", "Suggested action": "Use this as guide", 
                          "When to seek local support": "If symptoms worsen", "confidence": 0.6}
@@ -518,9 +355,8 @@ with tab2:
             photo_bytes = photo.getvalue()
             analysis = analyze_photo(photo_bytes, selected_crop, photo_description or "No description")
 
-            st.success(f"✅ Detected: **{analysis['likely_issue']}** ({analysis['confidence']:.0%} confidence)")
+            st.success(f"✅ Detected: **{analysis['Likely issue']}** ({analysis['confidence']:.0%} confidence)")
 
-            # Feed image result into the same structured flow
             combined_q = f"Photo of {selected_crop} showing {photo_description or 'symptoms'}"
             matches = find_best_matches(combined_q)
             ai_result = build_ai_answer(combined_q, matches, image_analysis=analysis)
@@ -553,9 +389,5 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ========================== NEXT STEP COMMENT ==========================
-st.info("""
-**Next-level upgrade (optional):**  
-Replace the linear flow with LangGraph (stateful agent) – I can give you the exact `farmer_agent.py` file next if you want full ReAct-style planning, memory, and conditional tool use.
-""")
+st.info("Next step: Want the full LangGraph agent version (stateful, planning, memory)? Just say the word and I'll give you the extra files.")
 
