@@ -1,115 +1,647 @@
-[
-  {
-    "question": "Why are my maize leaves turning yellow?",
-    "answer": "Yellow maize leaves may be caused by nitrogen deficiency, water stress, poor drainage, or disease."
-  },
-  {
-    "question": "What causes holes in maize leaves?",
-    "answer": "Holes in maize leaves are often caused by fall armyworm, stem borers, or other chewing insects."
-  },
-  {
-    "question": "How do I control fall armyworm in maize?",
-    "answer": "Check maize plants early, especially inside the whorl. Remove larvae manually in small plots and use recommended pest control methods when needed."
-  },
-  {
-    "question": "When should I apply nitrogen fertilizer to maize?",
-    "answer": "Nitrogen fertilizer is often applied during early maize growth and again when the plants are knee high, depending on local recommendations."
-  },
-  {
-    "question": "Why are my maize plants stunted?",
-    "answer": "Stunted maize growth may be caused by poor soil fertility, drought stress, pest damage, compacted soil, or poor planting conditions."
-  },
-  {
-    "question": "How do I control weeds in maize?",
-    "answer": "Control weeds early through hand weeding, cultivation, mulch, or recommended herbicides. Early weed control is very important for maize growth."
-  },
-  {
-    "question": "What spacing should I use for maize?",
-    "answer": "Maize spacing depends on the variety and local recommendations, but many farmers use rows about 75 cm apart and plants 20 to 30 cm apart within the row."
-  },
-  {
-    "question": "Why do maize leaves have brown spots?",
-    "answer": "Brown spots on maize leaves may be caused by disease, nutrient problems, or stress. If the spots spread quickly, seek local agronomic advice."
-  },
-  {
-    "question": "What causes maize leaf blight?",
-    "answer": "Maize leaf blight is commonly linked to fungal infection. It often appears as elongated lesions on leaves and can spread under favorable moisture conditions."
-  },
-  {
-    "question": "How do I manage maize leaf blight?",
-    "answer": "Use clean seed, rotate crops, reduce crop residue where appropriate, and seek local guidance if disease pressure becomes severe."
-  },
-  {
-    "question": "What causes maize leaves to look purple?",
-    "answer": "Purple maize leaves may be linked to phosphorus deficiency, cold stress, or restricted root growth."
-  },
-  {
-    "question": "How do I know if maize has nitrogen deficiency?",
-    "answer": "Maize with nitrogen deficiency often shows yellowing that starts on older leaves first, with poor growth and reduced vigor."
-  },
-  {
-    "question": "How do I know if maize has phosphorus deficiency?",
-    "answer": "Phosphorus deficiency in maize may cause slow growth, weak roots, and sometimes purple coloration on leaves, especially in young plants."
-  },
-  {
-    "question": "How do I improve soil fertility for maize?",
-    "answer": "Improve maize soil fertility by using the right fertilizer, adding organic matter, rotating crops, reducing erosion, and following soil test recommendations when available."
-  },
-  {
-    "question": "What manure is good for maize?",
-    "answer": "Well-decomposed manure can help improve soil structure and nutrient supply for maize. It should be applied carefully and preferably combined with good nutrient planning."
-  },
-  {
-    "question": "Why are soybean leaves turning yellow?",
-    "answer": "Yellow soybean leaves may be caused by nutrient deficiency, water stress, root problems, or disease."
-  },
-  {
-    "question": "How can I improve soybean nodulation?",
-    "answer": "Use the right inoculant, plant in suitable moisture, and avoid exposing treated seed to too much heat or direct sunlight before planting."
-  },
-  {
-    "question": "Why are soybean plants not growing well?",
-    "answer": "Poor soybean growth may be caused by poor soil fertility, drought stress, compaction, disease, or poor nodulation."
-  },
-  {
-    "question": "How do I control weeds in soybean?",
-    "answer": "Control weeds early using hand weeding, cultivation, mulch, or recommended herbicides because early weed competition can reduce soybean yield."
-  },
-  {
-    "question": "What causes soybean leaves to have spots?",
-    "answer": "Leaf spots on soybean may be caused by disease, chemical injury, or nutrient stress. Severe cases should be checked locally."
-  },
-  {
-    "question": "How do I know if my crop has drought stress?",
-    "answer": "Common drought stress signs include leaf rolling, slow growth, wilting, and poor grain fill. Check soil moisture and compare stressed areas with healthier parts of the field."
-  },
-  {
-    "question": "How do I know if soybean has iron deficiency?",
-    "answer": "Soybean iron deficiency often appears as yellowing between the veins of young leaves while the veins may stay greener."
-  },
-  {
-    "question": "Why are soybean leaves pale?",
-    "answer": "Pale soybean leaves may be linked to nutrient deficiency, poor nodulation, water stress, or root problems."
-  },
-  {
-    "question": "How can I improve soil fertility for soybean?",
-    "answer": "Improve soybean soil fertility by managing pH, using inoculants correctly, maintaining organic matter, and applying nutrients based on soil needs."
-  },
-  {
-    "question": "What causes root rot in soybean?",
-    "answer": "Soybean root rot is often associated with poor drainage, excess moisture, soilborne pathogens, and plant stress."
-  },
-  {
-    "question": "How do I reduce soybean disease pressure?",
-    "answer": "Use clean seed, rotate crops, avoid unnecessary stress, improve field drainage, and follow local agronomic advice when disease becomes serious."
-  },
-  {
-    "question": "Why are soybean plants not nodulating?",
-    "answer": "Poor nodulation may be caused by missing inoculant, poor soil conditions, or drought stress."
-  }
-,
-{
-  "question": "Why are my soybeans weak and not fixing nitrogen well?",
-  "answer": "Weak soybeans that are not fixing nitrogen well may have poor nodulation. This can happen when inoculant was missing or ineffective, soil conditions are poor, or drought stress reduced root activity."
+import streamlit as st
+import json
+import re
+import os
+from html import escape
+
+USE_OPENAI = False
+client = None
+
+try:
+    from openai import OpenAI
+    if os.getenv("OPENAI_API_KEY"):
+        client = OpenAI()
+        USE_OPENAI = True
+except Exception:
+    USE_OPENAI = False
+
+with open("knowledge_base.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+st.set_page_config(
+    page_title="FarmerChat",
+    layout="wide"
+)
+
+st.markdown("""
+<style>
+:root {
+    --green-900: #1f4d2e;
+    --green-800: #2f6b3d;
+    --green-700: #3d7a49;
+    --green-100: #eef6ef;
+    --green-050: #f7fbf7;
+    --text-main: #1f2937;
+    --text-soft: #5b6470;
+    --border-soft: #dfe7df;
+    --card-bg: #ffffff;
+    --shadow-soft: 0 10px 30px rgba(18, 38, 24, 0.08);
 }
-]
+html, body, [class*="css"] {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text-main);
+}
+.block-container {
+    padding-top: 1.1rem;
+    padding-bottom: 2rem;
+    max-width: 1240px;
+}
+.topbar {
+    background: #ffffff;
+    border: 1px solid #edf1ed;
+    border-radius: 18px;
+    padding: 0.95rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 1rem;
+}
+.brand {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--green-800);
+    letter-spacing: 0.2px;
+}
+.nav-links {
+    display: flex;
+    gap: 1.4rem;
+    color: var(--text-soft);
+    font-size: 0.98rem;
+    font-weight: 600;
+}
+.hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    min-height: 360px;
+    padding: 2.2rem 2.3rem;
+    background:
+        linear-gradient(90deg, rgba(28,59,36,0.88) 0%, rgba(41,82,49,0.78) 40%, rgba(68,106,72,0.42) 100%),
+        url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80");
+    background-size: cover;
+    background-position: center;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 1.2rem;
+}
+.hero-content {
+    max-width: 700px;
+    color: #ffffff;
+    padding-top: 1.2rem;
+}
+.hero-kicker {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    margin-bottom: 1rem;
+}
+.hero-title {
+    font-size: 3.1rem;
+    line-height: 1.02;
+    font-weight: 750;
+    margin-bottom: 0.9rem;
+}
+.hero-subtitle {
+    font-size: 1.12rem;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.92);
+    margin-bottom: 1.25rem;
+}
+.cta-row {
+    display: flex;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+}
+.cta-note {
+    margin-top: 0.8rem;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.92rem;
+}
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin: 1.1rem 0 1.4rem 0;
+}
+.metric-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-soft);
+    border-radius: 18px;
+    padding: 1rem 1.05rem;
+    box-shadow: var(--shadow-soft);
+}
+.metric-label {
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+.metric-value {
+    font-size: 1.22rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+.section-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-soft);
+    border-radius: 22px;
+    padding: 1.2rem 1.25rem;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 1rem;
+}
+.section-title {
+    font-size: 1.28rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+.section-subtitle {
+    color: var(--text-soft);
+    margin-bottom: 0.9rem;
+}
+.answer-card {
+    background: var(--green-050);
+    border: 1px solid #d8e6d7;
+    border-radius: 18px;
+    padding: 1rem 1.1rem;
+    margin-top: 0.6rem;
+    margin-bottom: 0.7rem;
+}
+.answer-label {
+    font-weight: 700;
+    color: var(--green-900);
+    margin-bottom: 0.15rem;
+}
+.answer-block {
+    margin-bottom: 0.85rem;
+    line-height: 1.55;
+}
+.status-pill {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: #edf6ed;
+    color: var(--green-900);
+    border: 1px solid #d9e9d8;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-right: 0.45rem;
+    margin-bottom: 0.45rem;
+}
+.quick-btn-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0.6rem 0 1rem 0;
+}
+.footer-box {
+    background: #fafcf9;
+    border: 1px solid #e4ece4;
+    border-radius: 18px;
+    padding: 1rem 1.1rem;
+    margin-top: 1rem;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+}
+@media (max-width: 900px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .nav-links {
+        display: none;
+    }
+}
+</style>
+""", unsafe_allow_html=True)
+
+def clean_text(text):
+    return re.findall(r"\w+", text.lower())
+
+def normalize_words(words):
+    mapped = []
+    for w in words:
+        if w in ["soybeans", "soybean"]:
+            mapped.append("soybean")
+        elif w in ["maizes", "maize"]:
+            mapped.append("maize")
+        elif w in ["nodulating", "nodulation", "nodule", "nodules"]:
+            mapped.append("nodulation")
+        elif w in ["fixing", "fix", "fixed"]:
+            mapped.append("fixing")
+        else:
+            mapped.append(w)
+    return mapped
+
+def score_match(user_question, item):
+    user_words = normalize_words(clean_text(user_question))
+    item_words = normalize_words(clean_text(item["question"] + " " + item["answer"]))
+    user_set = set(user_words)
+    item_set = set(item_words)
+
+    score = 0
+    overlap = user_set.intersection(item_set)
+    score += len(overlap) * 3
+
+    if "soybean" in user_set and "soybean" in item_set:
+        score += 10
+    if "maize" in user_set and "maize" in item_set:
+        score += 10
+
+    important_terms = [
+        "nodulation", "fixing", "nitrogen", "inoculant", "yellow",
+        "purple", "blight", "spots", "fertility", "fertilizer",
+        "drought", "root", "rot", "weeds", "disease", "pest"
+    ]
+
+    for term in important_terms:
+        if term in user_set and term in item_set:
+            score += 5
+
+    if "soybean" in user_question.lower() and "soybean" not in item["question"].lower():
+        score -= 8
+    if "maize" in user_question.lower() and "maize" not in item["question"].lower():
+        score -= 8
+
+    return score
+
+def find_best_matches(user_question, top_n=3):
+    scored = []
+    for item in data:
+        scored.append((score_match(user_question, item), item))
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [item for score, item in scored if score > 0][:top_n]
+
+def build_context(matches):
+    if not matches:
+        return "No relevant farming knowledge found."
+    return "\n\n".join(
+        [f"Question: {item['question']}\nAnswer: {item['answer']}" for item in matches]
+    )
+
+def build_local_answer(user_question):
+    matches = find_best_matches(user_question)
+    if not matches:
+        fallback = {
+            "Likely issue": "Unclear from current knowledge base",
+            "Why this may be happening": "The system could not find a strong maize or soybean match.",
+            "What to check next": "Rephrase the question with the crop, visible symptoms, field condition, and growth stage.",
+            "Suggested action": "Use a more specific question or expand the knowledge base.",
+            "When to seek local support": "Seek local support if symptoms are spreading quickly or affecting a large area."
+        }
+        return fallback, []
+
+    best = matches[0]["answer"]
+    response = {
+        "Likely issue": best,
+        "Why this may be happening": "This answer was selected from the closest crop-specific knowledge in the system.",
+        "What to check next": "Compare crop stage, leaf color, damage pattern, field moisture, and any pest or disease signs.",
+        "Suggested action": "Use this answer as a first guide, then confirm with field observation.",
+        "When to seek local support": "Seek local support for severe disease pressure, rapid spread, or unclear cases."
+    }
+    return response, matches
+
+def build_ai_answer(user_question, matches):
+    if not USE_OPENAI or client is None:
+        return None
+
+    context = build_context(matches)
+
+    prompt = f"""
+You are FarmerChat, an agricultural support assistant for maize and soybean farmers.
+
+Use only the knowledge below.
+Return your answer in this exact JSON format (no extra text):
+
+{{
+  "Likely issue": "...",
+  "Why this may be happening": "...",
+  "What to check next": "...",
+  "Suggested action": "...",
+  "When to seek local support": "..."
+}}
+
+Requirements:
+- Keep the language simple, practical, and field-oriented.
+- Do not make up facts.
+- If the farmer asks about soybean, do not answer with maize advice.
+- If the farmer asks about maize, do not answer with soybean advice.
+
+Farmer question:
+{user_question}
+
+Knowledge:
+{context}
+"""
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=600
+        )
+        raw_text = response.choices[0].message.content.strip()
+        
+        # Try JSON first (more reliable)
+        try:
+            return json.loads(raw_text)
+        except:
+            # Fallback to old text parsing
+            return parse_ai_answer(raw_text)
+    except Exception:
+        return None
+
+def parse_ai_answer(text):
+    sections = {
+        "Likely issue": "",
+        "Why this may be happening": "",
+        "What to check next": "",
+        "Suggested action": "",
+        "When to seek local support": ""
+    }
+
+    current = None
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+
+        found = False
+        for key in sections:
+            if line.startswith(key + ":") or line.startswith(key + " :"):
+                sections[key] = line.split(":", 1)[1].strip()
+                current = key
+                found = True
+                break
+
+        if not found and current:
+            sections[current] += " " + line
+
+    return sections
+
+def render_answer_card(sections):
+    def safe(key):
+        return escape(str(sections.get(key, "") or "Not available"))
+
+    st.markdown(f"""
+    <div class="answer-card">
+        <div class="answer-block">
+            <div class="answer-label">Likely issue</div>
+            <div>{safe("Likely issue")}</div>
+        </div>
+        <div class="answer-block">
+            <div class="answer-label">Why this may be happening</div>
+            <div>{safe("Why this may be happening")}</div>
+        </div>
+        <div class="answer-block">
+            <div class="answer-label">What to check next</div>
+            <div>{safe("What to check next")}</div>
+        </div>
+        <div class="answer-block">
+            <div class="answer-label">Suggested action</div>
+            <div>{safe("Suggested action")}</div>
+        </div>
+        <div class="answer-block" style="margin-bottom:0;">
+            <div class="answer-label">When to seek local support</div>
+            <div>{safe("When to seek local support")}</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("""
+<div class="topbar">
+    <div class="brand">FarmerChat</div>
+    <div class="nav-links">
+        <span>Who We Are</span>
+        <span>How It Works</span>
+        <span>Impact</span>
+        <span>Knowledge Hub</span>
+        <span>Field Support</span>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="hero">
+    <div class="hero-content">
+        <div class="hero-kicker">AI assistant for agriculture</div>
+        <div class="hero-title">Localized crop support for maize and soybean farmers</div>
+        <div class="hero-subtitle">
+            Helping farmers access timely, practical, and context-aware support for pests,
+            diseases, soil fertility, fertilizer, and field decisions.
+        </div>
+        <div class="cta-row">
+            <span class="status-pill">Localized support</span>
+            <span class="status-pill">Crop-aware retrieval</span>
+            <span class="status-pill">Structured guidance</span>
+        </div>
+        <div class="cta-note">
+            Designed to support scalable farmer guidance beyond traditional one-to-one extension workflows.
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+with st.sidebar:
+    st.title("FarmerChat")
+    st.caption("Farmer support system for maize and soybean production")
+
+    selected_crop = st.selectbox("Crop", ["General", "Maize", "Soybean"], index=0)
+    selected_topic = st.selectbox(
+        "Problem area",
+        ["General", "Pests", "Diseases", "Soil fertility", "Fertilizer", "Drought", "Weeds"],
+        index=0
+    )
+
+    st.markdown("### System status")
+    st.write(f"AI mode: {'On' if USE_OPENAI else 'Off'}")
+    st.write("Knowledge base: Active")
+    st.write("Photo workflow: Enabled")
+
+    with st.expander("About FarmerChat"):
+        st.write("FarmerChat is an AI-assisted farmer support system that combines crop-specific retrieval, practical agronomic knowledge, and conversational support for maize and soybean production.")
+        st.write("It is designed to improve access to localized, timely, and practical field guidance.")
+
+st.markdown(f"""
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-label">Supported crops</div>
+        <div class="metric-value">Maize and Soybean</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">System mode</div>
+        <div class="metric-value">{"AI + Knowledge Base" if USE_OPENAI else "Knowledge Base Only"}</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Current focus</div>
+        <div class="metric-value">{escape(selected_topic)}</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-label">Consultation type</div>
+        <div class="metric-value">Text and Photo Support</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+tab1, tab2, tab3 = st.tabs(["Ask FarmerChat", "Photo Review", "Knowledge Hub"])
+
+with tab1:
+    st.markdown("""
+    <div class="section-card">
+        <div class="section-title">Ask FarmerChat</div>
+        <div class="section-subtitle">
+            Enter a crop question and receive structured support grounded in maize and soybean knowledge.
+        </div>
+    """, unsafe_allow_html=True)
+
+    q1, q2, q3, q4 = st.columns(4)
+    if q1.button("Soybeans not fixing nitrogen"):
+        st.session_state["preset_question"] = "My soybeans are weak and not fixing nitrogen well. What could be wrong?"
+    if q2.button("Purple maize leaves"):
+        st.session_state["preset_question"] = "My maize leaves are purple. What could be wrong?"
+    if q3.button("Maize leaf blight"):
+        st.session_state["preset_question"] = "How do I manage maize leaf blight?"
+    if q4.button("Soybean root rot"):
+        st.session_state["preset_question"] = "What causes root rot in soybean?"
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = [
+            {"role": "assistant", "content": "Hello. I can help with maize and soybean questions on pests, diseases, soil fertility, and fertilizer."}
+        ]
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.write(message["content"])
+
+    prompt_value = st.session_state.pop("preset_question", None)
+    user_question = prompt_value or st.chat_input("Type your farming question here")
+
+    if user_question:
+        full_question = user_question
+        if selected_crop != "General":
+            full_question = f"{selected_crop}. {full_question}"
+        if selected_topic != "General":
+            full_question = f"{full_question} Topic: {selected_topic}"
+
+        st.session_state.messages.append({"role": "user", "content": user_question})
+        with st.chat_message("user"):
+            st.write(user_question)
+
+        local_response, matches = build_local_answer(full_question)
+        ai_raw = build_ai_answer(full_question, matches)
+
+        with st.chat_message("assistant"):
+            if ai_raw and isinstance(ai_raw, dict):
+                render_answer_card(ai_raw)
+                stored_answer = json.dumps(ai_raw)
+            elif ai_raw:
+                render_answer_card(parse_ai_answer(ai_raw))
+                stored_answer = ai_raw
+            else:
+                render_answer_card(local_response)
+                stored_answer = local_response["Likely issue"]
+
+            if matches:
+                with st.expander("Related knowledge"):
+                    for item in matches:
+                        st.write("- " + item["question"])
+
+            st.caption(f"Mode: {'AI + knowledge base' if USE_OPENAI else 'knowledge base only'}")
+
+        st.session_state.messages.append({"role": "assistant", "content": stored_answer})
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with tab2:
+    st.markdown("""
+    <div class="section-card">
+        <div class="section-title">Photo Review</div>
+        <div class="section-subtitle">
+            Upload a field photo and describe the visible issue for a structured review workflow.
+        </div>
+    """, unsafe_allow_html=True)
+
+    photo = st.file_uploader("Upload a field photo", type=["png", "jpg", "jpeg"])
+    photo_description = st.text_input("Describe the visible issue in the image")
+
+    if photo is not None:
+        st.image(photo, use_container_width=True)
+
+    if st.button("Review photo"):
+        if photo_description.strip():
+            combined_question = photo_description
+            if selected_crop != "General":
+                combined_question = f"{selected_crop}. {combined_question}"
+            if selected_topic != "General":
+                combined_question = f"{combined_question} Topic: {selected_topic}"
+
+            local_response, matches = build_local_answer(combined_question)
+            ai_raw = build_ai_answer(combined_question, matches)
+
+            st.markdown("### Photo-based support")
+            if ai_raw and isinstance(ai_raw, dict):
+                render_answer_card(ai_raw)
+            elif ai_raw:
+                render_answer_card(parse_ai_answer(ai_raw))
+            else:
+                render_answer_card(local_response)
+
+            st.caption("Confidence note: this is advisory support based on description and available knowledge, not a final diagnosis.")
+
+            if matches:
+                with st.expander("Related knowledge"):
+                    for item in matches:
+                        st.write("- " + item["question"])
+        else:
+            st.warning("Please describe the visible issue before reviewing the photo.")
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with tab3:
+    st.markdown("""
+    <div class="section-card">
+        <div class="section-title">Knowledge Hub</div>
+        <div class="section-subtitle">
+            Search the agronomic issues currently supported by the system.
+        </div>
+    """, unsafe_allow_html=True)
+
+    search_term = st.text_input("Search knowledge", placeholder="Search by crop, issue, deficiency, disease, pest, or fertilizer")
+
+    crop_filter = st.selectbox("Filter by crop", ["All", "Maize", "Soybean"])
+
+    filtered_items = []
+    for item in data:
+        q = item["question"].lower()
+        a = item["answer"].lower()
+
+        if search_term and search_term.lower() not in q and search_term.lower() not in a:
+            continue
+
+        if crop_filter == "Maize" and "maize" not in q and "maize" not in a:
+            continue
+        if crop_filter == "Soybean" and "soybean" not in q and "soybean" not in a:
+            continue
+
+        filtered_items.append(item)
+
+    st.write(f"Results: {len(filtered_items)}")
+
+    for item in filtered_items:
+        with st.expander(item["question"]):
+            st.write(item["answer"])
+
+    st.markdown("</div>", unsafe_allow_html=True)
+
+st.markdown("""
+<div class="footer-box">
+    <strong>FarmerChat</strong><br>
+    Version: Improved prototype<br>
+    Built as a crop-support system for maize and soybean production using knowledge-grounded retrieval and AI-assisted structured guidance.<br><br>
+    Responsible use: This tool is for support and early interpretation only. Serious disease, pest, and fertility issues should be confirmed through local agronomic expertise.
+</div>
+""", unsafe_allow_html=True)
