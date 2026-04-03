@@ -314,13 +314,15 @@ def build_ai_answer(user_question, matches):
 You are FarmerChat, an agricultural support assistant for maize and soybean farmers.
 
 Use only the knowledge below.
-Return your answer in this exact format:
+Return your answer in this exact JSON format (no extra text):
 
-Likely issue:
-Why this may be happening:
-What to check next:
-Suggested action:
-When to seek local support:
+{{
+  "Likely issue": "...",
+  "Why this may be happening": "...",
+  "What to check next": "...",
+  "Suggested action": "...",
+  "When to seek local support": "..."
+}}
 
 Requirements:
 - Keep the language simple, practical, and field-oriented.
@@ -336,12 +338,22 @@ Knowledge:
 """
 
     try:
-        response = client.responses.create(
-            model="gpt-5-mini",
-            input=prompt
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=600
         )
-        return response.output_text.strip()
-    except Exception:
+        raw_text = response.choices[0].message.content.strip()
+        
+        # Try to parse JSON if the model returned it
+        try:
+            return json.loads(raw_text)
+        except:
+            # Fallback: parse the old text format
+            return parse_ai_answer(raw_text)
+    except Exception as e:
+        st.warning(f"AI temporarily unavailable: {str(e)[:80]}")
         return None
 
 def parse_ai_answer(text):
@@ -361,7 +373,7 @@ def parse_ai_answer(text):
 
         found = False
         for key in sections:
-            if line.startswith(key + ":"):
+            if line.startswith(key + ":") or line.startswith(key + " :"):
                 sections[key] = line.split(":", 1)[1].strip()
                 current = key
                 found = True
@@ -374,7 +386,7 @@ def parse_ai_answer(text):
 
 def render_answer_card(sections):
     def safe(key):
-        return escape(sections.get(key, "") or "Not available")
+        return escape(str(sections.get(key, "") or "Not available"))
 
     st.markdown(f"""
     <div class="answer-card">
@@ -506,40 +518,8 @@ with tab1:
         with st.chat_message(message["role"]):
             st.write(message["content"])
 
-    prompt_value = st.session_state.pop("preset_question", None)
-    if prompt_value:
-        user_question = prompt_value
-        st.session_state.messages.append({"role": "user", "content": user_question})
-        with st.chat_message("user"):
-            st.write(user_question)
-
-        full_question = user_question
-        if selected_crop != "General":
-            full_question = f"{selected_crop}. {full_question}"
-        if selected_topic != "General":
-            full_question = f"{full_question} Topic: {selected_topic}"
-
-        local_response, matches = build_local_answer(full_question)
-        ai_raw = build_ai_answer(full_question, matches)
-
-        with st.chat_message("assistant"):
-            if ai_raw:
-                render_answer_card(parse_ai_answer(ai_raw))
-                stored_answer = ai_raw
-            else:
-                render_answer_card(local_response)
-                stored_answer = local_response["Likely issue"]
-
-            if matches:
-                with st.expander("Related knowledge"):
-                    for item in matches:
-                        st.write("- " + item["question"])
-
-            st.caption(f"Mode: {'AI + knowledge base' if USE_OPENAI else 'knowledge base only'}")
-
-        st.session_state.messages.append({"role": "assistant", "content": stored_answer})
-
-    user_question = st.chat_input("Type your farming question here")
+    # Handle preset question or new input
+    user_question = st.session_state.pop("preset_question", None) or st.chat_input("Type your farming question here")
 
     if user_question:
         full_question = user_question
@@ -556,7 +536,10 @@ with tab1:
         ai_raw = build_ai_answer(full_question, matches)
 
         with st.chat_message("assistant"):
-            if ai_raw:
+            if ai_raw and isinstance(ai_raw, dict):
+                render_answer_card(ai_raw)
+                stored_answer = json.dumps(ai_raw)
+            elif ai_raw:
                 render_answer_card(parse_ai_answer(ai_raw))
                 stored_answer = ai_raw
             else:
@@ -601,7 +584,9 @@ with tab2:
             ai_raw = build_ai_answer(combined_question, matches)
 
             st.markdown("### Photo-based support")
-            if ai_raw:
+            if ai_raw and isinstance(ai_raw, dict):
+                render_answer_card(ai_raw)
+            elif ai_raw:
                 render_answer_card(parse_ai_answer(ai_raw))
             else:
                 render_answer_card(local_response)
@@ -656,7 +641,7 @@ with tab3:
 st.markdown("""
 <div class="footer-box">
     <strong>FarmerChat</strong><br>
-    Version: Final project prototype<br>
+    Version: Improved prototype<br>
     Built as a crop-support system for maize and soybean production using knowledge-grounded retrieval and AI-assisted structured guidance.<br><br>
     Responsible use: This tool is for support and early interpretation only. Serious disease, pest, and fertility issues should be confirmed through local agronomic expertise.
 </div>
